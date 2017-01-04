@@ -1,0 +1,19 @@
+{
+  "name": "stellar-slack-bot",
+  "version": "1.0.0",
+  "description": "Slack app that streams transactions on the stellar network",
+  "main": "stellar-slack-bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@slack/client": "^3.7.0",
+    "body-parser": "^1.15.2",
+    "config": "^1.24.0",
+    "express": "^4.14.0",
+    "request": "^2.79.0",
+    "stellar-sdk": "^0.6.2"
+  }
+}

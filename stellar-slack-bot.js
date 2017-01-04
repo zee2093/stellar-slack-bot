@@ -3,7 +3,7 @@ var Stellar = require('stellar-sdk');
 var config = require('config');
 var express = require('express');
 var bodyparser = require('body-parser');
-
+var database = require('./config/database');
 var routes = require('./routes');
 
 var app = express();
@@ -11,12 +11,25 @@ var app = express();
 app.use(bodyparser.urlencoded({extended: true}));
 app.use(bodyparser.json());
 
-routes.configure(app); // load app routes
+routes.configure(app);
 global.webhookArray = [];
 var txStream = ""; //transaction stream
 var IncomingWebhook = Slack.IncomingWebhook;
 var url = process.env.SLACK_WEBHOOK_URL || ''; //see section above on sensitive data
 webhookArray.push(url);
+
+
+// get webhooks
+database.teams.forge().fetch()
+  .then(function(models) {
+    models.toJSON().forEach(function(m) {
+      webhookArray.push(m.webhook_url);
+    });
+    console.log("webhookArray", webhookArray);
+  })
+  .catch(function(error) {
+    console.log("retrieving teams error", error);
+  });
 
 
 var webhook = new IncomingWebhook(url);
@@ -26,7 +39,7 @@ var payload = {
 								"username": "stellar-bot",
     						"icon_emoji": ":rocket:",
     						"mrkdrm" : "true",
-    					};
+              };
 
 txStream = server.operations()
                         .cursor('now')

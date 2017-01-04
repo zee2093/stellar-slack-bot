@@ -1,0 +1,6 @@
+{
+
+	"testNetwork": "https://horizon-testnet.stellar.org",
+	"publicNetwork": "https://horizon.stellar.org"
+
+}
